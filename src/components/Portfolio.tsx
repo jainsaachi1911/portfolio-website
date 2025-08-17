@@ -26,10 +26,10 @@ import {
 
 // Add hardcoded images array
 const myImages = [
-  '/sih.jpg',
-  '/srg.png',
-  '/saavishkar.jpeg',
-  '/cs.jpg'
+  '/portfolio-website/sih.jpg',
+  '/portfolio-website/srg.png',
+  '/portfolio-website/saavishkar.jpeg',
+  '/portfolio-website/cs.jpg'
 ];
 
 const Portfolio = () => {
@@ -54,7 +54,7 @@ const Portfolio = () => {
     web: ['Spring Boot REST APIs', 'React.js', 'OAuth2', 'MySQL'],
     aiMl: ['NumPy', 'Pandas', 'Matplotlib', 'Scikit-learn', 'TensorFlow', 'OpenCV', 'YOLO', 'NLP'],
     tools: ['Git', 'Docker', 'Kubernetes', 'AWS (beginner)'],
-    concepts: ['OOP', 'RESTful APIs', 'Data Structures', 'Algorithms', 'Microservices Architecture'],
+    concepts: ['OOP', 'RESTful APIs', 'Docker', 'Kubernetes', 'Microservices Architecture'],
     soft: ['Agile Collaboration', 'Sprint Planning', 'Communication Skills', 'Problem Solving', 'Cross-Functional Teamwork']
   };
 
@@ -162,7 +162,7 @@ const Portfolio = () => {
           </p>
           
           <div className="flex flex-wrap justify-center gap-4 mb-8">
-            <a href='https://short-link.me/saachi-jain-resume'>
+            <a href='https://drive.google.com/file/d/1_2LQr65PwSRyGcKTWTji73euhqE0PScY/view?usp=sharing'>
               <Button size="lg" className="hover-lift bg-gradient-to-r from-pink-500 to-purple-600 border-0">
                 <Download className="mr-2 h-5 w-5" />
                 Download CV
@@ -346,6 +346,18 @@ const Portfolio = () => {
         </div>
       </section>
 
+      {/* Skills Section */}
+      <section id="skills" className="py-20 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16 animate-slide-up">
+            <h2 className="text-4xl font-bold mb-4">Technical <span className="gradient-text">Skills</span></h2>
+            <p className="text-lg text-muted-foreground">Interactive visualization of my technical expertise</p>
+          </div>
+
+          <SkillsVisualization skills={skills} />
+        </div>
+      </section>
+
       {/* Projects Section */}
       <section id="projects" className="py-20 px-4 bg-card/30">
         <div className="max-w-6xl mx-auto">
@@ -453,10 +465,11 @@ const Portfolio = () => {
               {
                 title: "Advanced AI-Based Detection and Tracking System (ADTS) for Crime Prevention and Identification in Real-Time Surveillance",
                 venue: "IEEE ICOCT, Bengaluru, Karnataka, India",
-                status: "To be published in IEEE Xplore",
+                status: "Published in IEEE Xplore",
                 year: "2024",
                 description: "Developed an innovative real-time surveillance system leveraging advanced AI algorithms for crime detection and prevention with high accuracy tracking capabilities.",
-                link: "#"
+                paperLink: "https://drive.google.com/file/d/14V5O4o_2TJgXE6zSKk4Dp-gNWqtIL21H/view?usp=sharing",
+                ieeexploreLink: "https://ieeexplore.ieee.org/document/11118424"
               },
               {
                 title: "Classification and Environmental Analysis of Microplastics for a Sustainable Ecosystem using AI",
@@ -464,7 +477,8 @@ const Portfolio = () => {
                 status: "In Review",
                 year: "2025",
                 description: "Comprehensive research on AI-powered microplastic detection and environmental impact analysis for sustainable ecosystem monitoring.",
-                link: "#"
+                paperLink: "https://drive.google.com/file/d/your-file-id/view?usp=sharing",
+                ieeexploreLink: null
               }
             ].map((paper, index) => (
               <div key={index} className="animate-slide-up" style={{animationDelay: `${index * 0.2}s`}}>
@@ -491,15 +505,17 @@ const Portfolio = () => {
                         variant="outline" 
                         size="sm" 
                         className="hover:bg-primary/10 hover:border-primary/50 transition-all duration-300"
+                        onClick={() => window.open(paper.paperLink, '_blank')}
                       >
                         <ExternalLink className="mr-2 h-4 w-4" />
                         Read Paper
                       </Button>
-                      {paper.status === "To be published in IEEE Xplore" && (
+                      {paper.status === "Published in IEEE Xplore" && (
                         <Button 
                           variant="ghost" 
                           size="sm"
-                          className="text-muted-foreground hover:text-primary transition-colors duration-300"
+                          className="text-foreground hover:text-primary transition-colors duration-300"
+                          onClick={() => window.open(paper.ieeexploreLink, '_blank')}
                         >
                           <Code className="mr-2 h-4 w-4" />
                           IEEE Xplore
@@ -511,18 +527,6 @@ const Portfolio = () => {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Skills Section */}
-      <section id="skills" className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16 animate-slide-up">
-            <h2 className="text-4xl font-bold mb-4">Technical <span className="gradient-text">Skills</span></h2>
-            <p className="text-lg text-muted-foreground">Interactive visualization of my technical expertise</p>
-          </div>
-
-          <SkillsVisualization skills={skills} />
         </div>
       </section>
 
@@ -615,19 +619,34 @@ const Portfolio = () => {
                 { icon: Code, label: 'LeetCode', href: 'https://leetcode.com/u/jainsaachi1911/' },
                 { icon: Mail, label: 'Email', href: 'mailto:jainsaachi1911@gmail.com' }
               ].map((social, index) => (
-                <Card key={index} className="hover-lift animate-scale-in" style={{animationDelay: `${index * 0.1}s`}}>
-                  <CardContent className="p-6 text-center">
-                    <social.icon className="h-8 w-8 text-primary mx-auto mb-3" />
-                    <p className="font-medium">{social.label}</p>
-                  </CardContent>
-                </Card>
+                <a
+                  key={index}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block"
+                >
+                  <Card className="hover-lift animate-scale-in" style={{animationDelay: `${index * 0.1}s`}}>
+                    <CardContent className="p-6 text-center">
+                      <social.icon className="h-8 w-8 text-primary mx-auto mb-3" />
+                      <p className="font-medium">{social.label}</p>
+                    </CardContent>
+                  </Card>
+                </a>
               ))}
             </div>
 
-            <Button size="lg" className="hover-lift">
-              <Mail className="mr-2 h-5 w-5" />
-              Get In Touch
-            </Button>
+            <a
+              href="mailto:jainsaachi1911@gmail.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block"
+            >
+              <Button size="lg" className="hover-lift">
+                <Mail className="mr-2 h-5 w-5" />
+                Get In Touch
+              </Button>
+            </a>
           </div>
         </div>
       </section>

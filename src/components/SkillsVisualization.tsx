@@ -41,24 +41,28 @@ const SkillsVisualization = ({ skills }: { skills: any }) => {
             data science, and system programming.
           </p>
         </div>
-        <div className="grid grid-cols-3 gap-3 mb-3">
-          {["Python", "Java", "C++"].map((lang: string, index: number) => (
+        <div className="grid grid-cols-3 gap-3 mb-3 min-h-[56px]">
+          {[
+            "Python", "Java", "C++"
+          ].map((lang: string, index: number) => (
             <Badge 
               key={lang} 
               variant="outline" 
-              className="p-3 text-center justify-center hover:scale-105 transition-transform duration-200"
+              className="p-3 text-center justify-center hover:scale-105 transition-transform duration-200 font-bold text-lg"
               style={{animationDelay: `${index * 0.1}s`}}
             >
               {lang}
             </Badge>
           ))}
         </div>
-        <div className="grid grid-cols-2 gap-3">
-          {["JavaScript", "HTML & CSS"].map((lang: string, index: number) => (
+        <div className="grid grid-cols-2 gap-3 min-h-[56px]">
+          {[
+            "JavaScript", "HTML & CSS"
+          ].map((lang: string, index: number) => (
             <Badge 
               key={lang} 
               variant="outline" 
-              className="p-3 text-center justify-center hover:scale-105 transition-transform duration-200"
+              className="p-3 text-center justify-center hover:scale-105 transition-transform duration-200 font-bold text-lg"
               style={{animationDelay: `${(index + 3) * 0.1}s`}}
             >
               {lang}
