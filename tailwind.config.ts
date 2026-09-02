@@ -17,9 +17,33 @@ export default {
 				'2xl': '1400px'
 			}
 		},
-		extend: {
-			colors: {
-				border: 'hsl(var(--border))',
+	extend: {
+		fontFamily: {
+			mono: ['"IBM Plex Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+			sans: ['"IBM Plex Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+		},
+		colors: {
+			ink: {
+				DEFAULT: 'var(--ink-000)',
+				100: 'var(--ink-100)',
+				200: 'var(--ink-200)',
+				300: 'var(--ink-300)',
+			},
+			paper: {
+				DEFAULT: 'var(--paper)',
+				dim: 'var(--paper-72)',
+				faint: 'var(--paper-48)',
+				ghost: 'var(--paper-30)',
+			},
+			rule: {
+				DEFAULT: 'var(--rule)',
+				strong: 'var(--rule-strong)',
+			},
+			flare: 'var(--flare)',
+			cobalt: 'var(--cobalt)',
+			lime: 'var(--lime)',
+			accent2: 'var(--accent)',
+			border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
@@ -63,13 +87,21 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				}
 			},
-			borderRadius: {
-				lg: 'var(--radius)',
-				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+		borderRadius: {
+			lg: 'var(--radius)',
+			md: 'var(--radius)',
+			sm: 'var(--radius)'
+		},
+		transitionTimingFunction: {
+			out: 'var(--e-out)',
+			inout: 'var(--e-inout)',
+		},
+		keyframes: {
+			marquee: {
+				from: { transform: 'translateX(0)' },
+				to: { transform: 'translateX(-50%)' },
 			},
-			keyframes: {
-				'accordion-down': {
+			'accordion-down': {
 					from: {
 						height: '0'
 					},
@@ -86,11 +118,12 @@ export default {
 					}
 				}
 			},
-			animation: {
-				'accordion-down': 'accordion-down 0.2s ease-out',
+		animation: {
+			marquee: 'marquee 42s linear infinite',
+			'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out'
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [],
 } satisfies Config;
