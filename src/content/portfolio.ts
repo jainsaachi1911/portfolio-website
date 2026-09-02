@@ -56,7 +56,7 @@ export const education: Education[] = [
     degree: 'B. Tech in Computer Engineering (Honours in AI/ML)',
     institution: 'MPSTME, NMIMS University',
     period: '2023 - 2026',
-    grade: 'CGPA: 3.53/4',
+    grade: 'CGPA: 3.60/4',
   },
   {
     degree: 'Diploma in Computer Engineering',
