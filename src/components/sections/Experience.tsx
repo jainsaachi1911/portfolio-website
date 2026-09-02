@@ -8,7 +8,7 @@ export function Experience() {
       id="experience"
       index="03"
       label="Experience"
-      caption="Professional journey across engineering, security and applied research"
+      caption="Production software engineering, application security and applied research — building, hardening and releasing systems inside a high-availability enterprise platform."
     >
       <ol className="border-t border-rule">
         {experience.map((entry, i) => (
@@ -34,13 +34,10 @@ export function Experience() {
               <p className="meta mt-2 text-flare">{entry.company}</p>
               <p className="prose-body mt-6 max-w-[62ch]">{entry.description}</p>
 
-              <ul className="mt-7 flex flex-wrap items-center gap-x-2.5 gap-y-2">
+              <ul className="mt-7 flex flex-wrap items-center gap-2">
                 {entry.tech.map((tech) => (
-                  <li
-                    key={tech}
-                    className="meta-sm border border-rule px-2.5 py-1.5 transition-colors duration-300 ease-out hover:border-rule-strong hover:text-paper"
-                  >
-                    {tech}
+                  <li key={tech}>
+                    <span className="chip">{tech}</span>
                   </li>
                 ))}
               </ul>

@@ -1,16 +1,36 @@
 import { RadarPlot } from '@/components/graphics/RadarPlot';
 import { Section } from '@/components/system/Section';
 import { Reveal, RevealGroup } from '@/components/system/Reveal';
-import { aiMlProficiency, skillGroups, webProficiency } from '@/content/portfolio';
+import {
+  aiMlProficiency,
+  engineeringProficiency,
+  skillGroups,
+  waysOfWorking,
+  type SkillGroup,
+} from '@/content/portfolio';
+import { cn } from '@/lib/utils';
 
 const TICKS = 20;
+
+const accentClass: Record<SkillGroup['accent'], string> = {
+  flare: 'accent-flare',
+  cobalt: 'accent-cobalt',
+  lime: 'accent-lime',
+  paper: 'accent-paper',
+};
+
+const toolCount = skillGroups.reduce((total, group) => total + group.items.length, 0);
+const coreCount = skillGroups.reduce(
+  (total, group) => total + group.items.filter((item) => item.core).length,
+  0,
+);
 
 function Meter({ name, value, delay }: { name: string; value: number; delay: number }) {
   const on = Math.round((value / 100) * TICKS);
 
   return (
     <div className="meter group flex items-center gap-4 border-b border-rule py-3">
-      <span className="meta w-[9.5rem] shrink-0 text-paper-dim transition-colors duration-300 group-hover:text-paper">
+      <span className="w-[9rem] shrink-0 text-[0.625rem] font-semibold uppercase leading-tight tracking-[0.11em] text-paper transition-colors duration-300 sm:w-[11rem]">
         {name}
       </span>
       <span aria-hidden="true" className="flex h-4 flex-1 items-center justify-between">
@@ -23,8 +43,58 @@ function Meter({ name, value, delay }: { name: string; value: number; delay: num
           />
         ))}
       </span>
-      <span className="meta-sm w-8 shrink-0 text-right tabular-nums">{value}</span>
+      <span className="w-8 shrink-0 text-right text-[0.6875rem] font-semibold tabular-nums text-paper">
+        {value}
+      </span>
     </div>
+  );
+}
+
+function StackCard({ group, index }: { group: SkillGroup; index: number }) {
+  return (
+    <Reveal
+      as="article"
+      delay={index * 70}
+      className={cn('stack-card flex flex-col p-6 lg:p-8', accentClass[group.accent])}
+    >
+      <div className="flex items-baseline gap-3 border-b border-rule pb-4">
+        <span className="text-[0.6875rem] font-semibold tabular-nums tracking-[0.2em] text-[var(--accent)]">
+          {(index + 1).toString().padStart(2, '0')}
+        </span>
+        <h3 className="text-[0.95rem] font-semibold uppercase tracking-[0.12em] text-paper">
+          {group.label}
+        </h3>
+        <span className="ml-auto text-[0.625rem] font-medium tabular-nums tracking-[0.18em] text-paper-faint">
+          [{group.items.length.toString().padStart(2, '0')}]
+        </span>
+      </div>
+
+      <p className="mt-5 max-w-[46ch] text-[0.8125rem] font-normal leading-[1.65] text-paper-dim">
+        {group.summary}
+      </p>
+
+      <ul className="mt-6 flex flex-wrap gap-2">
+        {group.items.map((item) => (
+          <li key={item.name}>
+            <span className={cn('chip', item.core && 'chip--core')}>{item.name}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-2 pt-7">
+        <span className="text-[0.5625rem] font-semibold uppercase tracking-[0.2em] text-paper-faint">
+          Shipped in
+        </span>
+        {group.shippedIn.map((work) => (
+          <span
+            key={work}
+            className="text-[0.625rem] font-semibold uppercase tracking-[0.12em] text-[var(--accent)]"
+          >
+            {work}
+          </span>
+        ))}
+      </div>
+    </Reveal>
   );
 }
 
@@ -34,50 +104,66 @@ export function Skills() {
       id="skills"
       index="05"
       label="Stack"
-      caption="Interactive visualization of my technical expertise"
+      caption="The stack behind the work — grouped by the systems I build with it, and tied to the projects and production roles where each part has actually shipped."
     >
-      {/* Index of everything, grouped */}
-      <div className="border-t border-rule">
-        {skillGroups.map((group, i) => (
-          <Reveal
-            key={group.key}
-            delay={i * 60}
-            className="group grid gap-x-8 gap-y-4 border-b border-rule py-7 lg:grid-cols-12"
-          >
-            <div className="flex items-baseline gap-4 lg:col-span-3">
-              <span className="meta-sm text-flare">{(i + 1).toString().padStart(2, '0')}</span>
-              <h3 className="meta text-paper">{group.label}</h3>
-              <span className="meta-sm ml-auto tabular-nums lg:ml-0">[{group.items.length}]</span>
-            </div>
+      {/* Legend: what the lit chips mean, and the size of the stack. */}
+      <RevealGroup className="mb-10 flex flex-wrap items-center justify-between gap-x-8 gap-y-4 border-y border-rule py-4">
+        <div className="flex flex-wrap items-center gap-x-7 gap-y-3">
+          <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-paper">
+            {skillGroups.length} domains
+          </span>
+          <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-paper">
+            {toolCount} tools
+          </span>
+          <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-paper">
+            {coreCount} used in production
+          </span>
+        </div>
 
-            <ul className="flex flex-wrap items-baseline gap-x-1 gap-y-2 lg:col-span-9">
-              {group.items.map((item, index) => (
-                <li key={item} className="flex items-baseline">
-                  <span className="cursor-default text-[0.875rem] font-light text-paper-dim transition-colors duration-300 ease-out hover:text-flare">
-                    {item}
-                  </span>
-                  {index < group.items.length - 1 && (
-                    <span aria-hidden="true" className="px-3 text-paper-ghost">
-                      /
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </Reveal>
+        <div className="accent-flare flex items-center gap-3">
+          <span className="chip chip--core pointer-events-none">Core</span>
+          <span className="text-[0.625rem] font-medium uppercase tracking-[0.14em] text-paper-faint">
+            = shipped in production work
+          </span>
+        </div>
+      </RevealGroup>
+
+      <div className="grid gap-5 lg:grid-cols-2 lg:gap-6">
+        {skillGroups.map((group, i) => (
+          <StackCard key={group.key} group={group} index={i} />
         ))}
       </div>
+
+      <Reveal className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3 border border-rule bg-ink-100 p-6">
+        <span className="text-[0.5625rem] font-semibold uppercase tracking-[0.2em] text-paper-faint">
+          Ways of working
+        </span>
+        {waysOfWorking.map((item, i) => (
+          <span key={item} className="flex items-center">
+            <span className="text-[0.6875rem] font-medium uppercase tracking-[0.12em] text-paper">
+              {item}
+            </span>
+            {i < waysOfWorking.length - 1 && (
+              <span aria-hidden="true" className="pl-4 text-paper-ghost">
+                /
+              </span>
+            )}
+          </span>
+        ))}
+      </Reveal>
 
       {/* Calibration */}
       <div className="mt-[clamp(3rem,7vw,6rem)] grid gap-x-10 gap-y-14 lg:grid-cols-12">
         <RevealGroup className="lg:col-span-7">
           <div className="mask-line mb-8">
             <div className="flex items-baseline justify-between gap-4 border-b border-rule pb-3">
-              <h3 className="meta text-paper">AI / ML Calibration</h3>
+              <h3 className="text-[0.8125rem] font-semibold uppercase tracking-[0.16em] text-paper">
+                Engineering Calibration
+              </h3>
               <span className="meta-sm">Self-assessed / 100</span>
             </div>
           </div>
-          {aiMlProficiency.map((item, i) => (
+          {engineeringProficiency.map((item, i) => (
             <Meter key={item.name} name={item.name} value={item.value} delay={i * 70} />
           ))}
         </RevealGroup>
@@ -85,11 +171,13 @@ export function Skills() {
         <RevealGroup className="lg:col-span-4 lg:col-start-9">
           <div className="mask-line mb-8">
             <div className="flex items-baseline justify-between gap-4 border-b border-rule pb-3">
-              <h3 className="meta text-paper">Web Technologies</h3>
+              <h3 className="text-[0.8125rem] font-semibold uppercase tracking-[0.16em] text-paper">
+                AI / ML
+              </h3>
               <span className="meta-sm">Radar</span>
             </div>
           </div>
-          <RadarPlot axes={webProficiency} label="Web technologies" />
+          <RadarPlot axes={aiMlProficiency} label="AI and ML" />
         </RevealGroup>
       </div>
     </Section>

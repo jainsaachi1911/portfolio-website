@@ -19,16 +19,17 @@
     --ink-300: #1b1b21;
 
     /* — TYPE —
-       Alpha values are floors, not tastes: 0.74 and 0.58 clear WCAG AA on the
-       near-black ground. 0.34 is decorative only and never carries text. */
+       Alpha values are floors, not tastes: body and metadata sit at 0.92/0.78
+       so they clear WCAG AAA on the near-black ground. 0.5 is decorative only
+       and never carries text a reader needs. */
     --paper: #ece8e1;
-    --paper-72: rgba(236, 232, 225, 0.74);
-    --paper-48: rgba(236, 232, 225, 0.58);
-    --paper-30: rgba(236, 232, 225, 0.34);
+    --paper-72: rgba(236, 232, 225, 0.92);
+    --paper-48: rgba(236, 232, 225, 0.78);
+    --paper-30: rgba(236, 232, 225, 0.5);
 
     /* — RULES — */
-    --rule: rgba(236, 232, 225, 0.13);
-    --rule-strong: rgba(236, 232, 225, 0.28);
+    --rule: rgba(236, 232, 225, 0.18);
+    --rule-strong: rgba(236, 232, 225, 0.38);
 
     /* — ACCENTS — */
     --flare: #ff3b14;
@@ -339,9 +340,91 @@
 
   .prose-body {
     font-size: clamp(0.9rem, 1.05vw, 1.0125rem);
-    font-weight: 300;
+    font-weight: 400;
     line-height: 1.75;
     color: var(--paper-72);
+  }
+
+  /* — STACK CHIPS —
+     The tech stack reads as physical tokens: bordered, filled, and lit by the
+     card's accent. `--core` marks the tools that carry production work. */
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.42rem 0.7rem;
+    border: 1px solid var(--rule-strong);
+    background: var(--ink-200);
+    color: var(--paper);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: border-color var(--d-1) var(--e-out), background-color var(--d-1) var(--e-out),
+      color var(--d-1) var(--e-out), transform var(--d-1) var(--e-out);
+  }
+
+  .chip::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    flex: 0 0 4px;
+    background: var(--rule-strong);
+    transition: background-color var(--d-1) var(--e-out);
+  }
+
+  .chip--core {
+    border-color: var(--accent, var(--flare));
+    background: var(--accent-dim, var(--flare-dim));
+    font-weight: 600;
+  }
+
+  .chip--core::before {
+    background: var(--accent, var(--flare));
+  }
+
+  .chip:hover {
+    border-color: var(--accent, var(--flare));
+    background: var(--accent, var(--flare));
+    color: var(--ink-000);
+    transform: translateY(-2px);
+  }
+
+  .chip:hover::before {
+    background: var(--ink-000);
+  }
+
+  /* Accent-lit card used by the stack grid. */
+  .stack-card {
+    position: relative;
+    background: var(--ink-100);
+    border: 1px solid var(--rule);
+    transition: border-color var(--d-2) var(--e-out), background-color var(--d-2) var(--e-out);
+  }
+
+  .stack-card::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 2px;
+    background: var(--accent, var(--flare));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--d-2) var(--e-out);
+  }
+
+  .stack-card:hover {
+    border-color: var(--rule-strong);
+    background: var(--ink-200);
+  }
+
+  .stack-card:hover::before,
+  .stack-card:focus-within::before {
+    transform: scaleX(1);
   }
 
   /* — LAYOUT PRIMITIVES — */

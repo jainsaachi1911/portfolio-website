@@ -87,14 +87,10 @@ function ProjectRow({ project, index }: { project: Project; index: number }) {
           </div>
         </div>
 
-        <ul className="flex flex-wrap gap-x-1.5 gap-y-1.5 self-start lg:col-span-3 lg:col-start-8 lg:flex-col lg:gap-y-0">
-          {project.tech.map((tech, i) => (
-            <li
-              key={tech}
-              className="meta-sm border-rule py-1 pr-3 transition-[color,transform] duration-500 ease-out group-hover:text-paper-dim lg:w-full lg:border-b lg:py-2 lg:group-hover:translate-x-1"
-              style={{ transitionDelay: `${i * 35}ms` }}
-            >
-              {tech}
+        <ul className="flex flex-wrap gap-2 self-start lg:col-span-3 lg:col-start-8">
+          {project.tech.map((tech) => (
+            <li key={tech}>
+              <span className="chip">{tech}</span>
             </li>
           ))}
         </ul>
@@ -118,7 +114,7 @@ export function Projects() {
       id="projects"
       index="04"
       label="Selected Work"
-      caption="Some of my recent work and achievements"
+      caption="Systems designed and shipped end to end — architecture and service decomposition, implementation, containerised deployment, and the measured results each one produced."
       className="bg-ink-100"
     >
       <ol className="border-t border-rule">

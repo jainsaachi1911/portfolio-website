@@ -13,9 +13,9 @@ export const profile = {
   /** Split so the masthead can set the ampersand in the accent colour. */
   roleParts: ['Software Engineer', 'Systems Architect'],
   intro:
-    'I design and build backend systems — Spring Boot microservices containerised with Docker, orchestrated on Kubernetes and shipped through GitLab CI/CD. My focus is scalable, secure architecture that holds up in production.',
+    'I design and ship backend systems that hold up in production — Spring Boot microservices containerised with Docker, orchestrated on Kubernetes and released through GitLab CI/CD on AWS. My focus is system design: how services are decomposed, how they fail, and how they scale.',
   summary:
-    'Software engineer working across distributed backend services, cloud-native infrastructure and secure, scalable system design.',
+    'Software engineer building distributed backend systems — microservices architecture, cloud-native infrastructure on AWS, and AI-powered services designed for scale, security and uptime.',
   location: 'Mumbai, India',
   coordinates: '19.0760° N / 72.8777° E',
   availability: 'Available for opportunities',
@@ -33,8 +33,8 @@ export const socials = [
 export const about = {
   heading: 'My Journey',
   paragraphs: [
-    'I work across the backend stack — designing Spring Boot microservices and RESTful APIs, containerising them with Docker and orchestrating deployments on Kubernetes. Day to day that means writing production Java, hardening the code that already runs, and automating build and release through GitLab CI/CD pipelines.',
-    'What pulls me in is system design: how services are decomposed, how they fail, and how they scale. I care about the architectural decisions that make a platform both resilient and secure — service discovery and API gateways, observability, secure code review, and infrastructure a team can actually reason about.',
+    'I work across the backend stack — designing Spring Boot microservices and RESTful APIs, containerising them with Docker and orchestrating deployments on Kubernetes. Day to day that means writing production Java for a high-availability insurance platform serving customers at scale, hardening the code that already runs, and automating build and release through GitLab CI/CD.',
+    'What pulls me in is system design: service decomposition, service discovery and API gateways, caching and load balancing, observability and graceful failure. I have taken systems from architecture diagram to deployed service — a distributed fraud detection platform, a serverless OCR pipeline on AWS Lambda, and an enterprise migration from SVN to GitLab — and I care about building infrastructure a team can actually reason about.',
   ],
   plates: [
     { src: `${BASE}/sih.jpg`, alt: 'Saachi Jain at the Smart India Hackathon finals' },
@@ -139,8 +139,8 @@ export const projects: Project[] = [
   {
     title: 'Fraud Detection in Digital Transactions',
     description:
-      'Designed a real-time fraud detection system leveraging microservices architecture and rule-based logic to identify suspicious activity efficiently, ensuring scalable and secure transaction monitoring.',
-    tech: ['SpringBoot', 'Eureka Server', 'API gateway', 'Docker', 'Kubernetes', 'MySQL'],
+      'Designed a distributed, real-time fraud detection platform: independently deployable Spring Boot services behind an API gateway, discovered through Eureka, containerised with Docker and orchestrated on Kubernetes. Rule-based scoring flags suspicious transactions in-flight while the architecture keeps monitoring scalable, secure and resilient to single-service failure.',
+    tech: ['Spring Boot', 'Eureka Server', 'API Gateway', 'Docker', 'Kubernetes', 'MySQL'],
     href: 'https://github.com/jainsaachi1911/Fraud-Detection-SpringBoot-Microservices',
     accent: 'flare',
   },
@@ -163,76 +163,206 @@ export const projects: Project[] = [
   {
     title: 'AI-Powered Full Stack Platform',
     description:
-      'Currently developing a comprehensive full-stack application that leverages artificial intelligence for enhanced user experiences and intelligent automation features.',
-    tech: ['React', 'Node.js', 'AI/ML', 'TypeScript', 'PostgreSQL'],
+      'Building a full-stack platform with a retrieval-augmented generation (RAG) layer — vector search over an embedded knowledge base, served through a typed API to a React front end — so answers stay grounded in real data rather than model guesswork.',
+    tech: ['React', 'Node.js', 'RAG', 'LangChain', 'TypeScript', 'PostgreSQL'],
     href: 'https://github.com/jainsaachi1911/ai-powered-fullstack-platform',
     status: 'In Development',
     accent: 'lime',
   },
 ];
 
+export type Skill = {
+  name: string;
+  /** Marks the tools that carry production work — rendered as a lit chip. */
+  core?: boolean;
+};
+
 export type SkillGroup = {
   key: string;
   label: string;
-  items: string[];
+  /** One recruiter-facing line on what this group is actually used for. */
+  summary: string;
+  /** The shipped work this group backs — keeps the stack tied to evidence. */
+  shippedIn: string[];
+  accent: 'flare' | 'cobalt' | 'lime' | 'paper';
+  items: Skill[];
 };
 
 export const skillGroups: SkillGroup[] = [
   {
-    key: 'programming',
-    label: 'Programming',
-    items: ['Python', 'Java', 'C++', 'JavaScript', 'HTML', 'CSS'],
-  },
-  {
-    key: 'web',
-    label: 'Web',
-    items: ['Spring Boot REST APIs', 'React.js', 'OAuth2', 'MySQL'],
-  },
-  {
-    key: 'aiMl',
-    label: 'AI / ML',
-    items: ['NumPy', 'Pandas', 'Matplotlib', 'Scikit-learn', 'TensorFlow', 'OpenCV', 'YOLO', 'NLP'],
-  },
-  {
-    key: 'tools',
-    label: 'Tools',
-    items: ['Git', 'Docker', 'Kubernetes', 'AWS (beginner)'],
-  },
-  {
-    key: 'concepts',
-    label: 'Concepts',
-    items: ['OOP', 'RESTful APIs', 'Docker', 'Kubernetes', 'Microservices Architecture'],
-  },
-  {
-    key: 'soft',
-    label: 'Collaboration',
+    key: 'backend',
+    label: 'Backend & APIs',
+    summary: 'Production Java services and REST APIs, decomposed into microservices that scale independently.',
+    shippedIn: ['ICICI Prudential Platform', 'Fraud Detection Microservices'],
+    accent: 'flare',
     items: [
-      'Agile Collaboration',
-      'Sprint Planning',
-      'Communication Skills',
-      'Problem Solving',
-      'Cross-Functional Teamwork',
+      { name: 'Java', core: true },
+      { name: 'Spring Boot', core: true },
+      { name: 'Spring Web Flow' },
+      { name: 'REST APIs', core: true },
+      { name: 'Microservices', core: true },
+      { name: 'Eureka Service Discovery' },
+      { name: 'API Gateway' },
+      { name: 'OAuth2' },
+      { name: 'Node.js' },
+      { name: 'MySQL', core: true },
+      { name: 'PostgreSQL' },
+    ],
+  },
+  {
+    key: 'systemDesign',
+    label: 'System Design',
+    summary: 'How services split, how they fail and how they hold up — the architecture decisions behind the code.',
+    shippedIn: ['Fraud Detection Microservices', 'ICICI Prudential Platform'],
+    accent: 'cobalt',
+    items: [
+      { name: 'Distributed Systems', core: true },
+      { name: 'Service Decomposition', core: true },
+      { name: 'High Availability' },
+      { name: 'Load Balancing' },
+      { name: 'Caching Strategies' },
+      { name: 'Event-Driven Design' },
+      { name: 'Fault Tolerance' },
+      { name: 'Observability' },
+      { name: 'Secure Code Review', core: true },
+      { name: 'OOP & Design Patterns' },
+    ],
+  },
+  {
+    key: 'cloud',
+    label: 'Cloud, Containers & CI/CD',
+    summary: 'Containerised services shipped to the cloud through automated pipelines, with monitoring wired in.',
+    shippedIn: ['Serverless OCR Pipeline', 'SVN → GitLab Migration'],
+    accent: 'lime',
+    items: [
+      { name: 'AWS', core: true },
+      { name: 'Docker', core: true },
+      { name: 'Kubernetes', core: true },
+      { name: 'GitLab CI/CD', core: true },
+      { name: 'AWS Lambda' },
+      { name: 'Amazon S3' },
+      { name: 'Amazon Textract' },
+      { name: 'CloudWatch' },
+      { name: 'Git' },
+      { name: 'Linux' },
+      { name: 'DevSecOps' },
+    ],
+  },
+  {
+    key: 'aiEngineering',
+    label: 'AI Engineering',
+    summary: 'Retrieval-augmented services and models wired into real products, not notebooks.',
+    shippedIn: ['AI-Powered Full Stack Platform', 'ADTS Surveillance System'],
+    accent: 'paper',
+    items: [
+      { name: 'RAG Pipelines', core: true },
+      { name: 'Vector Databases' },
+      { name: 'LangChain' },
+      { name: 'LLM APIs' },
+      { name: 'Embeddings' },
+      { name: 'Prompt Engineering' },
+      { name: 'TensorFlow' },
+      { name: 'Scikit-learn' },
+      { name: 'NLP' },
+    ],
+  },
+  {
+    key: 'vision',
+    label: 'Computer Vision',
+    summary: 'Real-time detection and tracking systems benchmarked on accuracy and frame rate.',
+    shippedIn: ['Microplastics Detection', 'Traffic Violation Monitoring'],
+    accent: 'cobalt',
+    items: [
+      { name: 'YOLOv8 / YOLOv10', core: true },
+      { name: 'OpenCV', core: true },
+      { name: 'MTCNN' },
+      { name: 'Tesseract OCR' },
+      { name: 'Object Tracking' },
+      { name: 'NumPy' },
+      { name: 'Pandas' },
+      { name: 'Matplotlib' },
+    ],
+  },
+  {
+    key: 'automation',
+    label: 'AI Automation',
+    summary: 'Agentic tooling and workflow automation that removes the repetitive parts of delivery.',
+    shippedIn: ['Internal Workflow Automation'],
+    accent: 'flare',
+    items: [
+      { name: 'n8n', core: true },
+      { name: 'Zapier' },
+      { name: 'Make.com' },
+      { name: 'Cursor', core: true },
+      { name: 'GitHub Copilot' },
+      { name: 'OpenAI API' },
+      { name: 'Hugging Face' },
+    ],
+  },
+  {
+    key: 'frontend',
+    label: 'Frontend & Web',
+    summary: 'Interfaces on top of the services — typed, responsive and accessible.',
+    shippedIn: ['ICICI Prudential Platform', 'InventoHub'],
+    accent: 'lime',
+    items: [
+      { name: 'React.js', core: true },
+      { name: 'TypeScript' },
+      { name: 'JavaScript' },
+      { name: 'AngularJS' },
+      { name: 'Tailwind CSS' },
+      { name: 'Material UI' },
+      { name: 'Webflow' },
+      { name: 'Streamlit' },
+      { name: 'HTML / CSS' },
+    ],
+  },
+  {
+    key: 'languages',
+    label: 'Languages & Foundations',
+    summary: 'The fundamentals every one of these systems is built on.',
+    shippedIn: ['Every project on this page'],
+    accent: 'paper',
+    items: [
+      { name: 'Java', core: true },
+      { name: 'Python', core: true },
+      { name: 'C++' },
+      { name: 'SQL', core: true },
+      { name: 'TypeScript' },
+      { name: 'Data Structures' },
+      { name: 'Algorithms' },
+      { name: 'Operating Systems' },
+      { name: 'Computer Networks' },
     ],
   },
 ];
 
-/** Self-assessed proficiency, plotted as coded meters and a wireframe radar. */
-export const aiMlProficiency = [
-  { name: 'TensorFlow', value: 60 },
-  { name: 'OpenCV', value: 85 },
-  { name: 'YOLO', value: 89 },
-  { name: 'NLP', value: 40 },
-  { name: 'Scikit-learn', value: 70 },
-  { name: 'Pandas', value: 65 },
+export const waysOfWorking = [
+  'Agile / Scrum',
+  'Sprint Planning',
+  'Code Review',
+  'Cross-Functional Teamwork',
+  'Technical Communication',
 ];
 
-export const webProficiency = [
-  { name: 'React.js', value: 70 },
-  { name: 'Spring Boot', value: 50 },
-  { name: 'REST APIs', value: 77 },
-  { name: 'OAuth2', value: 55 },
-  { name: 'MySQL', value: 70 },
-  { name: 'AWS', value: 35 },
+/** Self-assessed proficiency, plotted as coded meters and a wireframe radar. */
+export const engineeringProficiency = [
+  { name: 'Java & Spring Boot', value: 84 },
+  { name: 'REST & Microservices', value: 80 },
+  { name: 'System Design', value: 76 },
+  { name: 'Docker & Kubernetes', value: 72 },
+  { name: 'CI/CD & DevSecOps', value: 74 },
+  { name: 'AWS Cloud', value: 66 },
+  { name: 'SQL & Data Modelling', value: 70 },
+];
+
+export const aiMlProficiency = [
+  { name: 'RAG / LLM', value: 72 },
+  { name: 'OpenCV', value: 85 },
+  { name: 'YOLO', value: 89 },
+  { name: 'NLP', value: 55 },
+  { name: 'Sklearn', value: 70 },
+  { name: 'TensorFlow', value: 60 },
 ];
 
 export type Publication = {
@@ -298,12 +428,6 @@ export type Recommendation = {
 };
 
 export const recommendations: Recommendation[] = [
-  {
-    name: 'Dr. Manoj Sankhe',
-    position: 'Senior Professor & Department In-charge',
-    company: 'Databyte Systems',
-    text: 'Exceptional talent in AI/ML with outstanding problem-solving abilities. Delivered high-quality solutions consistently. She was a valuable asset to the team.',
-  },
   {
     name: "Savio D'Souza",
     position: 'Founder',
